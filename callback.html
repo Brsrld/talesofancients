@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tales Uploader sign-in</title>
+<meta name="referrer" content="no-referrer">
+<link rel="stylesheet" href="style.css">
+<style>
+  code { display: block; word-break: break-all; padding: 12px; border: 1px solid var(--line); border-radius: 6px; }
+  button { font: inherit; padding: 8px 16px; margin-top: 12px; cursor: pointer; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Tales Uploader</h1>
+  <p id="intro" class="muted">This page finishes the sign-in of the channel's own TikTok account. Nothing is sent from
+  this page; copy the code back into Tales Uploader on your computer.</p>
+  <code id="code">No sign-in code in this address.</code>
+  <button id="copy" hidden>Copy</button>
+  <nav><a href="index.html">Home</a> · <a href="privacy.html">Privacy Policy</a></nav>
+</main>
+<script>
+  // The code stays in this browser tab: the page makes no requests and keeps no copy.
+  const q = new URLSearchParams(location.search);
+  const box = document.getElementById("code"), copy = document.getElementById("copy");
+  if (q.get("error")) {
+    box.textContent = "TikTok answered: " + q.get("error") + " " + (q.get("error_description") || "");
+  } else if (q.get("code")) {
+    box.textContent = location.href;
+    copy.hidden = false;
+    copy.onclick = () => navigator.clipboard.writeText(location.href).then(() => { copy.textContent = "Copied"; });
+  }
+</script>
+</body>
+</html>
